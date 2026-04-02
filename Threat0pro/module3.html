@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THREAT0 | Module 3: Advanced</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../Css/module3.css">
+</head>
+<body>
+
+    <div class="crt-overlay scanlines"></div>
+    <div class="crt-overlay vignette"></div>
+    <div id="interference-overlay" class="hidden"></div> 
+
+    <div id="terminal-casing">
+        
+        <!-- HUD -->
+        <header id="hud" class="hidden">
+            <div class="hud-group">
+                <span class="label">DATA INTEGRITY</span>
+                <div class="bar-track"><div id="health-bar" style="width: 100%;"></div></div>
+            </div>
+            <div class="hud-group center">
+                <div id="risk-meter-box">
+                    <span class="label">THREAT</span>
+                    <div id="server-status-display" class="timer-digits">LOW</div>
+                </div>
+            </div>
+            <div class="hud-group right">
+                <span class="label">CURRENT SCORE: </span>
+                <span id="score-display">0</span>
+            </div>
+        </header>
+
+        <main id="screen-viewport">
+            
+            <!-- SUBLEVEL MENU -->
+            <div id="screen-sublevel-menu" class="screen active">
+                <h2>// MODULE 03: ADVANCED ATTACKS</h2>
+                <!-- Calls the manual with ID 0 for general overview -->
+                <button class="btn-mini" onclick="document.getElementById('modal-manual').classList.remove('hidden')" style="margin-bottom: 30px;">
+                    <i class="fas fa-book"></i> READ TRAINING MANUAL
+                </button>
+                <div class="sublevel-container">
+                    <div id="sub-card-1" class="sub-card available" onclick="mod3.initLevel(1)">
+                        <div class="icon"><i class="fas fa-wifi"></i></div>
+                        <h4>3.1 MITM ATTACK</h4>
+                        <p>Max Score: 30</p>
+                    </div>
+                    <div id="sub-card-2" class="sub-card locked" onclick="mod3.initLevel(2)">
+                        <div class="icon"><i class="fas fa-user-secret"></i></div>
+                        <h4>3.2 KEYLOGGER</h4>
+                        <p>Max Score: 30</p>
+                    </div>
+                    <div id="sub-card-3" class="sub-card locked" onclick="mod3.initLevel(3)">
+                        <div class="icon"><i class="fas fa-server"></i></div>
+                        <h4>3.3 DDoS MITIGATION</h4>
+                        <p>Max Score: 40</p>
+                    </div>
+                </div>
+                <button class="btn-back" onclick="window.location.href='module1.html'">
+                    <i class="fas fa-arrow-left"></i> RETURN TO MAINFRAME
+                </button>
+                   <div style="position: absolute; bottom: 30px; right: 30px; opacity: 0.8;">
+                    <button class="btn-mini" onclick="mod3.resetModule3()" style="border-color: var(--alert-red); color: var(--alert-red);">
+            <i class="fas fa-undo"></i> RESTART MODULE 3
+        </button>
+    </div>
+            </div>
+
+<!-- LEVEL 1: MITM (REDESIGNED) -->
+<!-- LEVEL 1: INTERACTIVE MITM SIMULATOR -->
+<!-- LEVEL 1: FIXED SIZE MAP -->
+<!-- LEVEL 1: FIXED MITM MISSION -->
+<div id="game-lvl1" class="screen">
+    <div class="mission-frame">
+        
+        <!-- HEADER -->
+        <div class="mission-header">
+            <h3>MODULE 3.1: TRAFFIC INTERCEPTION</h3>
+            <div id="mission-status" class="status-indicator safe">STATUS: SECURE</div>
+        </div>
+
+        <!-- THE MAP STAGE (Fixed 1000px x 500px) -->
+        <div class="map-stage">
+            
+            <!-- SVG LAYER -->
+            <svg class="stage-svg" viewBox="0 0 1000 500">
+                <!-- Path 1: Normal (Straight) -->
+                <path id="path-normal" d="M 150 350 L 850 350" stroke="#333" stroke-width="4" stroke-dasharray="10" fill="none" />
+                
+                <!-- Path 2: Hacked (Triangle) -->
+                <path id="path-attack" d="M 150 350 L 500 120 L 850 350" stroke="#ff003c" stroke-width="4" fill="none" class="hide-path" />
+                
+                <!-- Path 3: VPN (Secure) -->
+                <path id="path-secure" d="M 150 350 L 850 350" stroke="#00ff9d" stroke-width="8" fill="none" class="hide-path" />
+
+                <!-- Moving Packet -->
+                <circle id="anim-packet" cx="0" cy="0" r="10" fill="#00f0ff">
+                    <animateMotion dur="2.5s" repeatCount="indefinite" id="motion-path">
+                        <mpath href="#path-normal"/>
+                    </animateMotion>
+                </circle>
+            </svg>
+
+            <!-- NODES (Absolute Positioned) -->
+            <div class="map-node node-user">
+                <div class="icon-circle"><i class="fas fa-laptop"></i></div>
+                <div class="icon-label">YOU</div>
+            </div>
+
+            <div class="map-node node-server">
+                <div class="icon-circle"><i class="fas fa-server"></i></div>
+                <div class="icon-label">BANK</div>
+            </div>
+
+            <div id="node-hacker" class="map-node node-hacker hidden-hacker">
+                <div class="icon-circle"><i class="fas fa-user-secret"></i></div>
+                <div class="icon-label">ATTACKER</div>
+                <div class="alert-tag">SNIFFING DATA</div>
+            </div>
+
+        </div>
+
+        <!-- CONTROL DECK (Buttons) -->
+        <div class="control-deck">
+            
+            <!-- Console Log -->
+            <div class="deck-log">
+                <div class="log-header">TERMINAL OUTPUT</div>
+                <div id="game-console" class="log-body">
+                    > SYSTEM READY...
+                </div>
+            </div>
+
+            <!-- Buttons Grid -->
+            <div class="deck-buttons">
+                
+                <!-- START BUTTON -->
+                <button id="btn-start" class="cyber-btn primary" onclick="window.mod3.l1_start()">
+                    <div class="btn-icon"><i class="fas fa-play"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">START SIMULATION</span>
+                        <span class="btn-sub">Initiate Data Transfer</span>
+                    </div>
+                </button>
+
+                <!-- SCAN BUTTON -->
+                <button id="btn-scan" class="cyber-btn disabled" onclick="window.mod3.l1_scan()">
+                    <div class="btn-icon"><i class="fas fa-radar"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">1. SCAN NETWORK</span>
+                        <span class="btn-sub">Detect Anomalies</span>
+                    </div>
+                </button>
+
+                <!-- INSPECT BUTTON -->
+                <button id="btn-inspect" class="cyber-btn disabled" onclick="window.mod3.l1_inspect()">
+                    <div class="btn-icon"><i class="fas fa-search"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">2. INSPECT PACKET</span>
+                        <span class="btn-sub">Analyze Payload</span>
+                    </div>
+                </button>
+
+                <!-- VPN BUTTON -->
+                <button id="btn-vpn" class="cyber-btn disabled" onclick="window.mod3.l1_vpn()">
+                    <div class="btn-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="btn-text">
+                        <span class="btn-title">3. DEPLOY VPN</span>
+                        <span class="btn-sub">Encrypt Traffic</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POPUP -->
+    <div id="lvl1-modal" class="modal-overlay hidden">
+        <div class="modal-content-box">
+            <h2 class="text-danger">⚠️ DATA INTERCEPTED</h2>
+            <div class="code-display">
+                <span class="text-dim">HTTP POST /api/login</span><br><br>
+                username: <span class="text-danger">admin_user</span><br>
+                password: <span class="text-danger">hunter2</span>
+            </div>
+            <p>The attacker intercepted your plaintext credentials!</p>
+            <button class="modal-btn" onclick="window.mod3.l1_closeModal()">CLOSE EVIDENCE</button>
+        </div>
+    </div>
+</div>
+
+            <!-- LEVEL 2: SESSION -->
+<!-- LEVEL 2: THE KEYLOGGER (FIXED LOGIC) -->
+<!-- LEVEL 2: THE KEYLOGGER (CAFE ENHANCED UI) -->
+<div id="game-lvl2" class="screen">
+    <div class="cafe-scene">
+        <div class="table-surface-area">
+            
+            <!-- LAPTOP UNIT -->
+            <div class="laptop-unit">
+                <div class="laptop-chassis">
+                    <div class="laptop-screen-bezel">
+                        <div class="os-desktop">
+                            <div class="desktop-grid">
+                                <div class="desktop-icon" onclick="mod3.l2_openApp('downloads')"><i class="fas fa-download"></i><span>Downloads</span></div>
+                                <div class="desktop-icon" onclick="mod3.l2_openApp('browser')"><i class="fas fa-globe"></i><span>Browser</span></div>
+                                <div class="desktop-icon" onclick="mod3.l2_openApp('security')"><i class="fas fa-shield-virus"></i><span>System Tools</span></div>
+                            </div>
+
+                            <!-- WINDOWS (Downloads, Browser, Security) -->
+                            <div id="win-downloads" class="win-container hidden">
+                                <div class="win-titlebar"><span>Downloads</span><button onclick="mod3.l2_closeApp('downloads')">X</button></div>
+                                <div class="win-content">
+                                    <div class="file-item" onclick="mod3.l2_installKeylogger()">
+                                        <i class="fas fa-file-archive"></i>
+                                        <div><strong>Free_WiFi_Tool.exe</strong><br><small>Source: Public_WiFi</small></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="win-browser" class="win-container hidden">
+                                <div class="win-titlebar"><span>Browser</span><button onclick="mod3.l2_closeApp('browser')">X</button></div>
+                                <div class="win-content">
+                                    <div class="browser-ui">
+                                        <input type="text" id="l2-username" placeholder="Username">
+                                        <input type="password" id="l2-password" placeholder="Password">
+                                        <button class="btn-login" onclick="mod3.l2_triggerPhoneAlert()">LOGIN</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="win-security" class="win-container hidden side-panel">
+                                <div class="win-titlebar"><span>Security Center</span><button onclick="mod3.l2_closeApp('security')">X</button></div>
+                                <div class="win-content">
+                                    <div id="l2-tool-menu">
+                                        <button onclick="mod3.l2_showSub('proc')">1. View Processes</button>
+                                        <button onclick="mod3.l2_showSub('scan')">2. Run Scan</button>
+                                        <button onclick="mod3.l2_showSub('pass')">3. Change Password</button>
+                                    </div>
+                                    <div id="l2-sub-proc" class="hidden">
+                                        <h4>PROCESS MANAGER</h4>
+                                        <div class="proc-row"><span>system_os.exe</span><span>OK</span></div>
+                                        <div id="l2-malicious-proc" class="proc-row suspicious-item" onclick="mod3.l2_killProcess()">
+                                            <span>wifi_optimizer.exe</span><span id="l2-proc-status">KILL</span>
+                                        </div>
+                                        <button class="btn-mini" onclick="mod3.l2_showSub('menu')">BACK</button>
+                                    </div>
+                                    <div id="l2-sub-scan" class="hidden">
+                                        <h4>SCANNER</h4>
+                                        <button id="btn-start-scan" onclick="mod3.l2_runScan()">START SCAN</button>
+                                        <div class="bar-track"><div id="l2-scan-fill" style="width:0%"></div></div>
+                                        <div id="l2-scan-results"></div>
+                                    </div>
+                                    <div id="l2-sub-pass" class="hidden">
+                                        <h4>CHANGE PASSWORD</h4>
+                                        <input type="password" id="l2-new-pwd" placeholder="New Password">
+                                        <button class="btn-login" onclick="mod3.l2_changePassword()">SECURE SYSTEM</button>
+                                        <button class="btn-mini" onclick="mod3.l2_showSub('menu')">BACK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Laptop Shadow for realism -->
+                <div class="laptop-bottom-shadow"></div>
+            </div>
+
+            <!-- SMARTPHONE -->
+            <div id="l2-phone" class="phone-device">
+                <div class="phone-screen">
+                    <div id="phone-notif" class="phone-alert-box hidden">
+                        <div class="notif-header"><i class="fas fa-exclamation-triangle"></i> ALERT</div>
+                        <p>Unauthorized login to Bank_App from Moscow, RU.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="l2-ghost-container"></div>
+</div>
+
+            <!-- LEVEL 3: DDoS -->
+<div id="game-lvl3" class="screen">
+    <div class="mission-frame tactical-mainframe">
+        <!-- HUD -->
+        <div class="l3-hud-top">
+            <div class="hud-item">
+                <label>SYSTEM UPTIME</label>
+                <div class="hud-progress"><div id="l3-uptime-bar" class="hud-fill" style="width: 100%;"></div></div>
+            </div>
+            <div class="hud-center">
+                <h2 id="l3-title">PHASE 1: DoS ATTACK</h2>
+                <div id="l3-threat-badge" class="badge-danger">THREAT: HIGH</div>
+            </div>
+            <div class="hud-item text-right">
+                <label>CPU LOAD</label>
+                <div class="load-text"><span id="l3-load-val">15</span>%</div>
+            </div>
+        </div>
+
+        <!-- STAGE -->
+        <div class="l3-visual-stage">
+            <svg id="l3-svg-lines" width="100%" height="100%" style="position:absolute; top:0; left:0; pointer-events:none; z-index:1;"></svg>
+
+            <div id="l3-view-dos" class="stage-view active">
+                <div class="network-tier tier-top">
+                    <div class="node hacker-node" id="dos-hacker">
+                        <div class="icon-frame red-glow"><i class="fas fa-user-ninja"></i></div>
+                        <div class="node-label">HACKER SOURCE</div>
+                    </div>
+                </div>
+                <div class="network-tier tier-mid">
+                    <div class="node bot-pc"><i class="fas fa-desktop"></i></div>
+                    <div class="node bot-pc"><i class="fas fa-laptop"></i></div>
+                    <div class="node bot-pc"><i class="fas fa-desktop"></i></div>
+                    <div class="node bot-pc"><i class="fas fa-laptop"></i></div>
+                    <div class="node bot-pc"><i class="fas fa-desktop"></i></div>
+                </div>
+                <div class="network-tier tier-bottom">
+                    <div class="node server-node" id="dos-server">
+                        <div id="l3-server-shield" class="shield-aura hidden"></div>
+                        <div class="icon-frame blue-glow"><i class="fas fa-server"></i></div>
+                        <div class="node-label">TARGET SERVER</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="l3-view-ddos" class="stage-view hidden">
+                <div class="world-map-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" class="map-img">
+                    <div id="map-attack-points"></div>
+                    <div class="map-hq"><i class="fas fa-shield-alt"></i><span>MAIN SERVERS</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONSOLE & BUTTONS -->
+        <div class="l3-console">
+            <div class="ai-box"><div id="l3-ai-msg" class="ai-text">> INITIALIZING...</div></div>
+            <div class="action-buttons" id="l3-btns"></div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="l3-modal" class="modal-overlay hidden">
+        <div class="modal-box result-box">
+            <h2 id="modal-title">PHASE COMPLETE</h2>
+            <div class="text-success" id="modal-score-tag" style="font-size: 2rem; margin: 10px 0;">+20 MARKS</div>
+            <p id="modal-body" style="color: #ccc; margin-bottom: 20px;"></p>
+            <button class="modal-btn primary" id="modal-next-btn">CONTINUE</button>
+        </div>
+    </div>
+</div>
+
+            <div id="modal-result" class="modal-overlay hidden">
+                <div class="modal-box system-box">
+                    <h2 id="res-title" style="color: var(--holo-cyan);">...</h2>
+                    <p id="res-msg">...</p>
+                    <button class="btn-primary" onclick="mod3.handleLevelComplete()">CONTINUE</button>
+                </div>
+            </div>      
+
+            <!-- SUMMARY SCREEN (NEW) -->
+            <!-- TACTICAL REPORT (ENHANCED UI) -->
+            <div id="screen-summary" class="screen">
+                <h1 class="report-main-title">TACTICAL REPORT</h1>
+                
+                <div class="summary-container">
+                    <!-- TOP ROW: Stats -->
+                    <div class="report-stats-row">
+                        <div class="stat-card">
+                            <span class="stat-label">MODULE RESULT</span>
+                            <span class="stat-value result-text" id="sum-status">PASSED</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">TOTAL SCORE</span>
+                            <span class="stat-value" id="sum-total">0/100</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">ACCURACY</span>
+                            <span class="stat-value" id="sum-percent">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE ROW: Log and Breakdown -->
+                    <div class="report-details-row">
+                        <!-- Left: Performance Log -->
+                        <div class="details-box log-box">
+                            <h3 class="box-header">// PERFORMANCE LOG</h3>
+                            <div id="feedback-log-container" class="log-scroll-area">
+                                <!-- JS will inject logs here -->
+                            </div>
+                        </div>
+
+                        <!-- Right: Score Breakdown & Next Steps -->
+                        <div class="details-box breakdown-box">
+                            <div class="sub-section">
+                                <h3 class="box-header">// SCORE BREAKDOWN</h3>
+                                <ul class="breakdown-list">
+                                    <li>LEVEL 1 (MITM): <span id="score-l1">0</span> / 30</li>
+                                    <li>LEVEL 2 (Keylogger): <span id="score-l2">0</span> / 30</li>
+                                    <li>LEVEL 3 (DDoS): <span id="score-l3">0</span> / 40</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="sub-section next-steps">
+                                <h3 class="box-header">// NEXT STEPS</h3>
+                                <p id="next-step-msg">Final assessment  unlocked . Return to Main Menu.</p>
+                                <small class="requirement-text">Passing Requirement: 70/100 Points to Unlock Next Module.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="summary-footer">
+                    <div class="footer-line"></div>
+                    <button class="btn-base" onclick="window.location.href='module1.html'">RETURN TO BASE</button>
+                </div>
+            </div>
+
+            <!-- MODALS -->
+            
+
+            <!-- TRAINING MANUAL MODAL (MATCHING MODULE 1 LAYOUT) -->
+<!-- TRAINING MANUAL (ENHANCED MODULE 2 STYLE) -->
+<div id="modal-manual" class="modal-overlay hidden" style="z-index: 2500;">
+    <div class="manual-window">
+        <!-- Inner Header Box -->
+        <div class="manual-header-box">
+            <div class="manual-header-title">TRAINING MANUAL: ADVANCED ATTACKS</div>
+            <button class="manual-x" onclick="mod3.closeManual()">X</button>
+        </div>
+
+        <!-- Scrollable Content Area -->
+        <div class="manual-scroll-area">
+            
+            <div class="manual-section">
+                <h3 class="manual-num">1.0 DEFINITION</h3>
+                <div class="manual-divider"></div>
+                <p class="manual-text">
+                    <strong>Advanced Network Attacks</strong> target the infrastructure and communication channels. These methods involve intercepting live data streams, capturing user inputs, and exhausting server capacity to deny service.
+                </p>
+            </div>
+
+            <div class="manual-section">
+                <h3 class="manual-num">2.0 THREAT TYPES</h3>
+                <div class="manual-divider"></div>
+                
+                <!-- Threat Card 1 -->
+                <div class="manual-threat-card">
+                    <div class="threat-card-header">
+                        <i class="fas fa-wifi"></i> MAN-IN-THE-MIDDLE (LEVEL 3.1)
+                    </div>
+                    <p class="threat-card-body">
+                        Attackers intercept data between two parties. VPNs encrypt this traffic to prevent plaintext data theft.
+                    </p>
+                </div>
+
+                <!-- Threat Card 2 -->
+                <div class="manual-threat-card">
+                    <div class="threat-card-header">
+                        <i class="fas fa-keyboard"></i> KEYLOGGER (LEVEL 3.2)
+                    </div>
+                    <p class="threat-card-body">
+                        Malicious software that records every keystroke. Detection requires monitoring active processes and running deep system scans.
+                    </p>
+                </div>
+
+                <!-- Threat Card 3 -->
+                <div class="manual-threat-card">
+                    <div class="threat-card-header">
+                        <i class="fas fa-server"></i> DDoS ATTACK (LEVEL 3.3)
+                    </div>
+                    <p class="threat-card-body">
+                        Overwhelming a server with fake traffic. Mitigation involves Rate Limiting and Traffic Scrubbing.
+                    </p>
+                </div>
+            </div>
+
+            <div class="manual-section">
+                <h3 class="manual-num">3.0 OBJECTIVES</h3>
+                <div class="manual-divider"></div>
+                <ul class="manual-list">
+                    <li>Identify insecure networks and utilize VPNs.</li>
+                    <li>Terminate unauthorized background processes.</li>
+                    <li>Mitigate DDoS attacks using defensive protocols.</li>
+                </ul>
+            </div>
+
+            <!-- VIDEO SECTION -->
+            <div class="manual-section">
+                <h3 class="manual-num" style="color: var(--alert-red);">4.0 VIDEO INTEL</h3>
+                <div class="manual-divider"></div>
+                
+                <!-- Video 1 -->
+                <div class="video-card" onclick="window.open('https://youtu.be/SYAux_gSCck?si=MC7Ur17HKX0p8oCq', '_blank')">
+                    <div class="video-thumb"><i class="fab fa-youtube"></i></div>
+                    <div class="video-info">
+                        <h4>INTEL: MITM & KEYLOGGERS</h4>
+                        <p>Understanding data interception techniques.</p>
+                    </div>
+                    <div class="video-arrow"><i class="fas fa-external-link-alt"></i></div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card" onclick="window.open('https://youtu.be/Rt4rna2LBZE?si=5HT78dknhdLPaUEg', '_blank')">
+                    <div class="video-thumb"><i class="fab fa-youtube"></i></div>
+                    <div class="video-info">
+                        <h4>INTEL: DDoS ATTACKS</h4>
+                        <p>Analysis of Distributed Denial of Service.</p>
+                    </div>
+                    <div class="video-arrow"><i class="fas fa-external-link-alt"></i></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Button -->
+        <div class="manual-footer">
+            <button class="manual-close-btn" onclick="mod3.closeManual()">CLOSE DATABASE</button>
+        </div>
+    </div>
+</div>
+
+            <!-- CONFIRMATION MODAL (NEW) -->
+            <div id="modal-confirm" class="modal-overlay hidden" style="z-index: 5000;">
+                <div class="modal-box system-box" style="border-color: var(--alert-red); box-shadow: 0 0 30px var(--alert-red);">
+                    <h2 style="color: var(--alert-red);">// SYSTEM WARNING</h2>
+                    <p id="confirm-msg" style="font-size: 1.2rem; margin: 20px 0; color: #fff;">...</p>
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+                        <button class="btn-mini" id="btn-confirm-no">CANCEL</button>
+                        <button class="btn-mini" id="btn-confirm-yes" style="border-color: var(--alert-red); color: var(--alert-red); box-shadow: 0 0 10px var(--alert-red);">CONFIRM RESET</button>
+                    </div>
+                </div>
+            </div>
+        </main> 
+    </div>
+    <!-- LEVEL RESULT POPUP (Add this at the bottom of your HTML) -->
+        <div id="modal-result" class="modal-overlay hidden">
+            <div class="modal-content-box result-box">
+                <h1 id="res-title" style="color: var(--success-green); margin-bottom: 10px;">MISSION ACCOMPLISHED</h1>
+                
+                <div class="score-display-large">
+                    <div class="score-circle">
+                        <span id="res-score">30</span>
+                        <span class="score-label">PTS</span>
+                    </div>
+                </div>
+
+                <p id="res-msg" style="font-size: 1.2rem; margin: 20px 0; color: #ccc;">
+                    Traffic successfully encrypted. The attacker has been locked out.
+                </p>
+
+                <button class="modal-btn primary" onclick="window.mod3.handleLevelComplete()">
+                    <i class="fas fa-arrow-left"></i> RETURN TO MENU
+                </button>
+            </div>
+        </div>
+        <!-- MISSION BRIEFING MODAL -->
+    <div id="modal-briefing" class="modal-overlay hidden" style="z-index: 4000;">
+        <div class="briefing-window">
+            <h2 class="briefing-title">MISSION BRIEFING</h2>
+            
+            <div class="briefing-section">
+                <h4 class="briefing-label">
+                    <i class="fas fa-list-ol"></i> LEVEL STEPS
+                </h4>
+                <div id="briefing-steps" class="briefing-text"></div>
+            </div>
+
+            <button class="briefing-exec-btn" onclick="mod3.startLevelAfterBriefing()">EXECUTE MISSION</button>
+        </div>
+    </div>
+
+    <!--system popup-->
+    <!-- CUSTOM SYSTEM ALERT MODAL -->
+        <div id="modal-alert" class="modal-overlay hidden" style="z-index: 6000;">
+            <div class="system-alert-window">
+                <div class="alert-header">
+                    <span id="alert-title">SYSTEM_NOTIFICATION</span>
+                </div>
+                <div class="alert-body">
+                    <p id="alert-msg">Message content goes here.</p>
+                </div>
+                <div class="alert-footer">
+                    <button class="alert-btn" onclick="mod3.closeAlert()">ACKNOWLEDGE</button>
+                </div>
+            </div>
+        </div>
+   <script type="module" src="../Js/module3.js"></script>
+</body>
+</html>

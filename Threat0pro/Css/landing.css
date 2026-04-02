@@ -1,0 +1,1566 @@
+:root {
+    /* THEME: TACTICAL CYBER HUD */
+    --bg-dark: #02040a;       
+    --bg-light: #0b111e;
+    
+    --primary: #00f3ff;       /* Neon Cyan */
+    --secondary: #0066ff;     /* Electric Blue */
+    --accent: #00d9ff;        /* Sky Blue */
+    
+    --text-main: #e0faff;     
+    --text-muted: #647a8a;    
+    
+    --glass-bg: rgba(0, 243, 255, 0.03);
+    --glass-border: rgba(0, 243, 255, 0.2);
+    --glass-blur: blur(10px);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+h1, h2, h3, .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+}
+
+.logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--text-main);
+    text-shadow: 0 0 10px var(--primary);
+}
+
+.highlight { color: var(--primary); text-shadow: 0 0 15px var(--primary); }
+.highlight img{
+    width: 200px;
+    height: 100px;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- AMBIENT BACKGROUND --- */
+.ambient-light {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    z-index: -1;
+}
+
+.light-1 {
+    top: -150px;
+    left: -100px;
+    background: radial-gradient(circle, var(--secondary), transparent);
+}
+
+.light-2 {
+    bottom: -150px;
+    right: -100px;
+    background: radial-gradient(circle, var(--primary), transparent);
+}
+
+/* --- LAYOUT UTILS --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section { padding: 80px 0; }
+.center { text-align: center; }
+
+/* --- GLASSMORPHISM --- */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.05), inset 0 0 20px rgba(0, 243, 255, 0.02);
+}
+
+/* --- NAVIGATION --- */
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0px 0;
+    transition: 0.3s;
+}
+
+#navbar.scrolled {
+    background: rgba(2, 4, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0px 0;
+}
+
+.nav-container { display: flex; justify-content: space-between; align-items: center; }
+.nav-links { display: flex; gap: 40px; }
+.nav-links a { font-family: 'Share Tech Mono', monospace; text-transform: uppercase; font-size: 0.9rem; }
+.nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+.nav-auth { display: flex; gap: 15px; align-items: center; }
+.mobile-menu-btn { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+/* --- BUTTONS --- */
+.btn-primary {
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    color: #000;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 2px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+    color: #fff;
+}
+
+.btn-text { 
+    background: none; border: none; 
+    color: var(--text-main); cursor: pointer; 
+    font-weight: 600; font-size: 0.9rem; 
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+}
+.btn-text:hover { color: var(--primary); }
+
+/* --- HERO SECTION --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 80px;
+}
+
+
+.hero-text h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+    max-width: 460px;
+}
+
+.hero-text{
+    max-width: 460px;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #fff, var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    max-width: 400px;
+    border-left: 2px solid var(--secondary);
+    padding-left: 15px;
+}
+
+.hero-btns { display: flex; gap: 20px; margin-bottom: 40px; }
+
+.trust-badges {
+    display: flex;
+    gap: 30px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* --- NEW HERO VISUAL: CYBER CORE (Replaces Cube) --- */
+.hero-visual {
+    position: relative;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+.cyber-core-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out; /* Smooth mouse following */
+}
+
+/* The Rings */
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+    transform-style: preserve-3d;
+}
+
+.ring-outer {
+    width: 100%;
+    height: 100%;
+    border-top: 2px solid var(--secondary);
+    border-bottom: 2px solid var(--secondary);
+    animation: spin 8s infinite linear;
+}
+
+.ring-middle {
+    width: 75%;
+    height: 75%;
+    border-left: 2px solid var(--primary);
+    border-right: 2px solid var(--primary);
+    animation: spin 5s infinite linear reverse;
+}
+
+.ring-inner {
+    width: 50%;
+    height: 50%;
+    border: 1px dashed var(--accent);
+    animation: spin 12s infinite linear;
+}
+
+.core-orb {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, var(--primary), transparent);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 50px var(--primary);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.core-orb i {
+    font-size: 1.5rem;
+    color: #000;
+    z-index: 2;
+}
+
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    animation: scan 3s infinite ease-in-out;
+    opacity: 0.5;
+}
+
+/* Floating Cards around Core */
+.floating-card {
+    position: absolute;
+    background: rgba(2, 4, 10, 0.9);
+    padding: 10px 20px;
+    border: 1px solid var(--secondary);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.2);
+    animation: float 4s ease-in-out infinite;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+.card-1 { top: 10%; left: -5%; animation-delay: 0s; border-color: var(--primary); color: var(--primary); }
+.card-2 { bottom: 10%; right: -5%; animation-delay: 2s; border-color: var(--secondary); color: var(--secondary); }
+
+.floating-card i { font-size: 1.2rem; }
+
+@keyframes spin {
+    0% { transform: rotate(0deg) rotateX(10deg); }
+    100% { transform: rotate(360deg) rotateX(10deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 30px var(--primary); }
+    50% { transform: scale(1.1); box-shadow: 0 0 60px var(--primary); }
+    100% { transform: scale(0.95); box-shadow: 0 0 30px var(--primary); }
+}
+
+@keyframes scan {
+    0% { top: 0%; opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* --- STATS SECTION --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    gap: 30px;
+}
+
+.stat-item h3 {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 5px;
+    font-family: 'Share Tech Mono', monospace;
+    text-shadow: 0 0 15px var(--primary);
+}
+
+/* --- MODULES SECTION --- */
+.section-header { margin-bottom: 60px; }
+.section-header h2 { font-size: 2.5rem; margin-bottom: 10px; color: white; }
+.section-header p { color: var(--text-muted); font-family: 'Share Tech Mono', monospace; }
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.module-card {
+    transition: 0.3s;
+    cursor: default;
+    background: linear-gradient(180deg, rgba(0,243,255,0.05) 0%, rgba(0,0,0,0) 100%);
+    border-top: 2px solid var(--glass-border);
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.15);
+    background: rgba(0, 243, 255, 0.08);
+}
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    background: #000;
+}
+
+.color-1 { color: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+.color-2 { color: var(--secondary); border-color: var(--secondary); box-shadow: 0 0 10px var(--secondary); }
+.color-3 { color: #fff; border-color: #fff; box-shadow: 0 0 10px #fff; }
+
+.module-card h3 { margin-bottom: 15px; font-size: 1.4rem; font-family: 'Share Tech Mono', monospace; }
+.module-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+/* --- FEATURE SPLIT --- */
+.feature-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.feature-list { margin: 30px 0; }
+
+.feature-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.feature-list i { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+/* Mock Terminal */
+.mock-terminal {
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 300px;
+    background: #02040a !important;
+    border: 1px solid var(--secondary);
+    box-shadow: 0 0 30px rgba(0, 102, 255, 0.1);
+}
+
+.term-header { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;}
+.dot { width: 10px; height: 10px; border-radius: 50%; opacity: 0.7; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+.term-body p { margin-bottom: 10px; color: var(--text-muted); font-size: 0.9rem; }
+.success { color: var(--primary) !important; text-shadow: 0 0 5px var(--primary); }
+.progress-bar { width: 100%; height: 2px; background: #333; margin-top: 15px; }
+.fill { width: 60%; height: 100%; background: var(--primary); animation: loading 2s infinite; box-shadow: 0 0 10px var(--primary); }
+
+@keyframes loading {
+    0% { width: 0%; opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { width: 100%; opacity: 0.5; }
+}
+
+
+
+.contact-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 250px;
+    justify-content: center;
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--primary);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.c-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.c-value {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    font-weight: 700;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+
+/* ... (Keep all previous CSS) ... */
+
+/* --- ABOUT SECTION --- */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-text {
+    position: relative;
+}
+
+.about-text h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+    color: white;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+.highlight-text {
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--primary) !important;
+    font-size: 1.2rem !important;
+    border-left: 3px solid var(--primary);
+    padding-left: 15px;
+}
+
+.text-accent {
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+.about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.about-tags span {
+    background: rgba(0, 243, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.about-tags i { color: var(--primary); }
+
+/* About Image Styles */
+.about-visual {
+    position: relative;
+}
+
+.image-frame {
+    position: relative;
+    border: 1px solid var(--primary);
+    padding: 10px;
+    background: rgba(0, 243, 255, 0.05);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+}
+
+.image-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(40%) contrast(1.2); /* Cyber look */
+}
+
+/* Add a scanline effect over the image */
+.scan-overlay {
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 243, 255, 0.1) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Responsive for About */
+@media (max-width: 900px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+    .image-frame {
+        margin-top: 30px;
+    }
+}
+
+/* ... (Keep all previous CSS) ... */
+
+/* --- SERVICES SECTION --- */
+.services-section {
+    padding-bottom: 100px;
+}
+
+.header-line {
+    width: 50px;
+    height: 3px;
+    background: var(--text-main);
+    margin: 15px auto 0;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    transition: 0.3s;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect */
+.service-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
+}
+
+/* Middle Card Highlight (Blue Border) */
+.highlight-card {
+    border: 2px solid var(--secondary);
+    background: rgba(0, 102, 255, 0.05);
+}
+
+.highlight-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(0, 102, 255, 0.3);
+}
+
+/* Circular Images */
+.service-img-wrapper {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* Image Overlay Effect */
+.service-img-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0, 243, 255, 0.2));
+}
+
+.service-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(20%);
+}
+
+.service-card:hover .service-img-wrapper img {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+}
+
+.service-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.service-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 300px;
+}
+
+/* Adjust highlighting for text in the middle card */
+.highlight-card h3 {
+    text-shadow: 0 0 15px rgba(0, 102, 255, 0.5);
+}
+
+/* ... (Keep all previous CSS) ... */
+
+/* --- TESTIMONIALS / DEVELOPERS SLIDER --- */
+.slider-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    border: 1px solid var(--primary); /* Blue border as requested */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide inactive slides */
+}
+
+.slider-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.slide {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    animation: fadeEffect 0.6s ease;
+}
+
+.slide.active {
+    display: flex;
+}
+
+@keyframes fadeEffect {
+    from { opacity: 0.4; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.developer-img {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 30px;
+}
+
+.developer-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.quote-icon {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    background: #fff;
+    color: #000;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.developer-quote {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+.stars {
+    color: #ffcc00; /* Gold color for stars */
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.slide h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: white;
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+}
+
+.developer-role {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Slider Arrows */
+.slider-arrow {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 3rem;
+    cursor: pointer;
+    transition: 0.3s;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.slider-arrow:hover {
+    color: var(--primary);
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+/* Responsive for Slider */
+@media (max-width: 768px) {
+    .slider-container {
+        padding: 40px 20px;
+    }
+    .slider-arrow {
+        font-size: 2rem;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+}
+/* --- HIGH-END GLASSMORPHISM VISION SECTION --- */
+.vision-section-new {
+    position: relative;
+    padding: 120px 0;
+    overflow: hidden; /* Keeps glows from leaking out */
+}
+
+.vision-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+
+/* 1. Background Glowing Blobs */
+.glass-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 1;
+    opacity: 0.6;
+    animation: pulseGlow 8s infinite alternate;
+}
+
+.glow-1 {
+    width: 300px;
+    height: 300px;
+    background: #a332ff; /* Purple */
+    top: 0;
+    right: 15%;
+}
+
+.glow-2 {
+    width: 250px;
+    height: 250px;
+    background: #639af4; /* Pink */
+    bottom: 5%;
+    left: 10%;
+}
+
+.glow-3 {
+    width: 150px;
+    height: 150px;
+    background: #7e4cfc; /* Orange-Red */
+    top: 10%;
+    left: 35%;
+}
+
+/* 2. The Frosted Glass Card */
+.glass-vision-card {
+    position: relative;
+    z-index: 10; /* Above the glows */
+    max-width: 850px;
+    padding: 80px 60px;
+    text-align: center;
+    
+    /* THE GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.03); /* Extremely subtle white tint */
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    
+    /* Border Styling */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px; /* Highly rounded as in image */
+    
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Typography for Glass Card */
+.vision-title-simple {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2.2rem;
+    color: #fff;
+    letter-spacing: 6px;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+}
+
+.vision-main-text {
+    font-size: 1.5rem;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
+.vision-highlight {
+    color: var(--primary); /* Cyan to match theme */
+    font-weight: 800;
+}
+
+.vision-sub-text {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6); /* Muted white */
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Subtle animation for the background shapes */
+@keyframes pulseGlow {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.2) translate(20px, 20px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .glass-vision-card {
+        padding: 50px 30px;
+        margin: 0 20px;
+        border-radius: 25px;
+    }
+    .vision-main-text {
+        font-size: 1.2rem;
+    }
+    .glass-glow {
+        width: 150px;
+        height: 150px;
+    }
+}
+/* =========================
+   HERO SECTION - CENTERED FIX
+   ========================= */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 1. Spline Layer */
+.spline-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 2. Hero Content - Forced Centering */
+.hero-content {
+    position: absolute;
+    top: 55%;             /* Moves the text vertically into the sphere */
+    left: 50%;            /* Horizontal Center */
+    transform: translate(-50%, -50%); /* Perfect Center Alignment */
+    z-index: 10;
+    text-align: center;   /* Centers all text inside */
+    width: 100%;
+    max-width: 800px;     /* Sets the "Box" width inside the sphere */
+    padding: 0 20px;
+}
+
+/* 3. Hero Text - Remove Left Constraints */
+.hero-text {
+    max-width: 460px !important; /* Overrides the previous 460px limit */
+    margin: 0 auto;
+     max-width: 550px;
+}
+
+.hero-text h1 {
+    font-size: 4.5rem;   /* Adjusted size for impact */
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+     max-width: 550px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin: 0 auto 30px; /* Centers paragraph */
+    max-width: 550px;    /* Keeps description tidy inside sphere */
+    border-left: none;   /* Removed side border for symmetry */
+    padding-left: 0;
+    line-height: 1.6;
+}
+
+/* 4. Buttons - Centered */
+.hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center; /* Centers the button under the text */
+    margin-bottom: 40px;
+}
+
+/* Spline scaling to ensure it fills the background */
+.spline-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spline-wrapper iframe {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    transform: scale(1.2); /* Slightly zoomed to fill the screen */
+}
+
+/* --- MISSION WORKFLOW (CAPABILITIES STYLE) --- */
+.workflow-slider-section {
+    position: relative;
+    background: #02040a;
+    padding: 120px 0;
+    overflow: hidden;
+}
+
+/* Atmospheric Glow Blobs */
+.flow-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.2;
+    z-index: 1;
+}
+.glow-purple { background: #6a11cb; top: -10%; left: -10%; }
+.glow-blue { background: #2575fc; bottom: -10%; right: -10%; }
+
+.workflow-slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.flow-cards-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+/* The Frosted Glass Card */
+.flow-glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 50px 30px;
+    text-align: center;
+    transition: 0.4s ease;
+    height: 100%;
+}
+
+.flow-glass-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--primary);
+}
+
+/* Circular Icon Wrapper */
+.flow-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 0 auto 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: var(--primary);
+    box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);
+}
+
+.flow-glass-card h3 {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    font-family: 'Inter', sans-serif;
+}
+
+.flow-glass-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+/* The Bold White Button */
+.flow-action-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 12px 0;
+    width: 140px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.flow-action-btn:hover {
+    background: var(--primary);
+    box-shadow: 0 0 20px var(--primary);
+}
+
+/* Nav & Pagination Controls */
+.flow-nav-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.flow-nav-btn:hover { opacity: 1; color: var(--primary); }
+
+.flow-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.f-dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+.f-dot.active {
+    background: white;
+    width: 20px;
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .flow-cards-container { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 650px) {
+    .flow-cards-container { grid-template-columns: 1fr; }
+}
+/* 5. Card Body (Bottom half) */
+.card-body {
+    padding: 40px 25px 30px;
+    background: #0b111e;
+    border-radius: 0 0 24px 24px;
+}
+
+.card-body h3 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.card-body p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 900px) {
+    .workflow-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .workflow-grid {
+        grid-template-columns: 1fr;
+    }
+    .workflow-main-title {
+        font-size: 2rem;
+    }
+}
+
+body {
+  margin: 0;
+}
+
+#splash {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease; /* smooth fade */
+}
+
+#splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#main-content {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#main-content.show {
+  opacity: 1;
+}
+
+/* --- FROSTED GLASS SLIDER UI --- */
+.slider-section {
+    position: relative;
+    background: #02040a;
+    padding: 100px 0;
+    overflow: hidden;
+}
+
+/* 1. Background Ornaments (The Pink Circle and Blue Triangle) */
+.slider-glow-circle {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: #952ff5; /* Vibrant Pink from image */
+    border-radius: 50%;
+    filter: blur(80px);
+    top: 10%;
+    left: 15%;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.slider-glow-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-bottom: 350px solid #0066ff; /* Electric Blue from image */
+    filter: blur(80px);
+    bottom: -5%;
+    right: 10%;
+    opacity: 0.4;
+    z-index: 1;
+    transform: rotate(20deg);
+}
+
+/* 2. Slider Layout */
+.slider-wrapper-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.slider-container-box {
+    width: 100%;
+    max-width: 1100px;
+    overflow: hidden; /* Mask the track */
+}
+
+.slider-track {
+    display: flex;
+    gap: 30px;
+    transition: transform 0.5s ease;
+    padding: 20px 0;
+}
+
+/* 3. The Frosted Card */
+.glass-slider-card {
+    min-width: calc(33.33% - 20px);
+    background: rgba(255, 255, 255, 0.05); /* Very light tint */
+    backdrop-filter: blur(25px) saturate(150%);
+    -webkit-backdrop-filter: blur(25px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 50px 30px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.glass-slider-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Card Content Styling */
+.user-profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary);
+}
+
+.glass-slider-card h3 {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.glass-slider-card p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+/* The White Button from Image */
+.card-action-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.card-action-btn:hover {
+    background: var(--primary);
+    box-shadow: 0 0 20px var(--primary);
+}
+
+/* Nav Buttons */
+.nav-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.nav-btn:hover { opacity: 1; color: var(--primary); }
+
+/* Dots */
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: white;
+    width: 25px; /* Long dot as in image */
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .glass-slider-card { min-width: calc(50% - 15px); }
+}
+@media (max-width: 600px) {
+    .glass-slider-card { min-width: 100%; }
+}
+
+
+/* --- CORE DEVELOPERS (REF 2 STYLE) --- */
+.team-section {
+    padding-bottom: 120px;
+}
+
+.dev-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.dev-card {
+    width: 100%;
+    max-width: 380px;
+    padding: 40px 30px;
+    border-radius: 40px; /* High rounding as in image */
+    text-align: center;
+    background: rgba(11, 17, 30, 0.8);
+    border: 1px solid var(--glass-border);
+    transition: 0.3s ease;
+}
+
+.dev-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-10px);
+}
+
+/* Avatar Styling */
+.dev-avatar-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px;
+}
+
+.dev-avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    padding: 5px;
+}
+
+.status-indicator {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 25px;
+    height: 25px;
+    background: var(--primary);
+    border: 4px solid #0b111e;
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+/* Info Styling */
+.dev-info h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.dev-role {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.dev-info p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 25px;
+    min-height: 45px;
+}
+
+/* Email Button */
+.dev-email-btn {
+    display: block;
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--primary);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-bottom: 25px;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid transparent;
+    transition: 0.3s;
+}
+
+.dev-email-btn:hover {
+    background: var(--primary);
+    color: black;
+}
+
+/* Social Icons */
+.dev-socials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dev-socials a {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.dev-socials a:hover {
+    color: var(--primary);
+    transform: scale(1.2);
+}
+
+/* --- SIMPLE FOOTER --- */
+.simple-footer {
+    padding: 25px 0;
+    background: #000;
+    border-top: 1px solid #111;
+}
+
+.footer-content-minimal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-content-minimal p {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.footer-links-minimal {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links-minimal a {
+    font-size: 0.85rem;
+    color: #555;
+    transition: 0.3s;
+}
+
+.footer-links-minimal a:hover {
+    color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dev-grid { gap: 20px; }
+    .footer-content-minimal { flex-direction: column; text-align: center; }
+}

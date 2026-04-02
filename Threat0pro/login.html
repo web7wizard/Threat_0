@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THREAT0 | System Access</title>
+    <link rel="stylesheet" href="../Css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="ambient-light light-1"></div>
+    <div class="ambient-light light-2"></div>
+    <div class="scanlines"></div>
+
+    <nav id="navbar">
+        <div class="container nav-container">
+            <div class="logo" onclick="window.location.href='module1.html'" style="cursor: pointer; margin-right: 1000px;"></div>">
+                <img src="../assets/logopic.png" alt="logo" >
+            </div>
+        </div>
+    </nav>
+
+    <section class="login-section">
+        <div class="container login-container">
+            
+            <div class="login-card glass-panel fade-in-up">
+                
+                <!-- HEADER -->
+                <div class="card-header">
+                    <h2 id="form-title"><i class="fas fa-fingerprint"></i> IDENTIFY</h2>
+                    <p id="form-subtitle">Enter credentials to access Cyber Command.</p>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <form id="login-form">
+                    <div class="input-group">
+                        <label>OPERATOR ID (EMAIL)</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="login-email" placeholder="agent@threat0.sec" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>ACCESS CODE</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary glow-effect full-width" id="btn-login">
+                        INITIALIZE SESSION
+                    </button>
+                </form>
+
+                <!-- REGISTER FORM (Hidden by default) -->
+                <form id="register-form" class="hidden">
+                    <div class="input-group">
+                        <label>CODENAME (NAME)</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user-secret"></i>
+                            <input type="text" id="reg-name" placeholder="Agent Zero" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>EMAIL FREQUENCY</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="reg-email" placeholder="agent@threat0.sec" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>SET ACCESS CODE</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-key"></i>
+                            <input type="password" id="reg-password" placeholder="Min 8 chars" required minlength="8">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary glow-effect full-width" id="btn-register">
+                        CREATE IDENTITY
+                    </button>
+                </form>
+
+                <!-- ERROR BOX -->
+                <div id="error-display" class="error-msg hidden" style="margin-top: 15px;">
+                    <i class="fas fa-exclamation-triangle"></i> <span id="error-text">Error</span>
+                </div>
+
+                <!-- TOGGLE LINK -->
+                <div class="card-footer">
+                    <p id="toggle-text">New Operator? <a href="#" id="toggle-btn" class="highlight-link">Request Clearance (Sign Up)</a></p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script type="module" src="../Js/login.js"></script>
+</body>
+</html>
