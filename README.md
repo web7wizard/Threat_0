@@ -31,7 +31,8 @@
 - Testing Strategy  
 - Why THREAT0 Stands Out  
 - Contribution  
-- Author  
+- Author
+-  Project Deployed Link
 - Future Enhancements
 
 ---
@@ -288,7 +289,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 The application is successfully deployed on Netlify and accessible online:
 
-🔗 https://thread0.netlify.app
+🔗 https://threat-0.netlify.app
 
 ---
 ## Future Enhancements
