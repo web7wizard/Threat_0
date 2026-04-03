@@ -284,8 +284,12 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 -  Javeriya Jamadar
 -  Amina Subhedar  
 ---
-## Project Deployed Link 
-can explore from here
+## Project Deployed Link
+
+The application is successfully deployed on Netlify and accessible online:
+
+🔗 https://thread0.netlify.app
+
 ---
 ## Future Enhancements
 - AI-based attack generation
